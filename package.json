@@ -1,0 +1,27 @@
+{
+  "name": "flan",
+  "version": "1.0.0",
+  "description": "A sweet facade on top of a process.disconnect-based graceful collapse.",
+  "main": "flan.js",
+  "scripts": {
+    "test": "mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Schoonology/flan.git"
+  },
+  "keywords": [
+    "cluster",
+    "child_process",
+    "process",
+    "graceful",
+    "shutdown",
+    "fork"
+  ],
+  "author": "Michael Schoonmaker <michael.r.schoonmaker@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "~1.7.0",
+    "mocha": "~1.11.0"
+  }
+}
