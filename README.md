@@ -43,13 +43,13 @@ Manually initiate a collapse of this process and all `add`-d processes. Defaults
 
 #### `"soft"`
 
-Perform a graceful collapse, like dropping a freshly-baked flan from a height of a few feet onto fresh linens: close
-sockets, stop listening to servers, clear timers, etc.
+An advisory notification to perform a graceful collapse, like taking a freshly-baked flan from a warm, toasty oven:
+close sockets, stop listening to servers, clear timers, etc.
 
 #### `"hard"`
 
-Perform a not-so-graceful (and immediate, thank you) collapse, like dropping a stale flan from a tall building onto the
-unsuspecting sidewalk below.
+A last-ditch notification to perform a not-so-graceful (and immediate, thank you) collapse, like dropping a flan from a
+tall building onto the unsuspecting sidewalk below.
 
 ## Examples
 
