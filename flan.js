@@ -1,5 +1,4 @@
-var cluter = require('cluster')
-  , EventEmitter = require('events').EventEmitter
+var EventEmitter = require('events').EventEmitter
   , inherits = require('util').inherits
   , emitter = new EventEmitter()
   , children = {}
@@ -46,11 +45,11 @@ function cascade() {
  */
 emitter.cluster = cluster
 function cluster() {
-  if (cluster.listeners('fork').indexOf(add) !== -1) {
+  if (require('cluster').listeners('fork').indexOf(add) !== -1) {
     return emitter
   }
 
-  cluster.on('fork', add)
+  require('cluster').on('fork', add)
 
   return emitter
 }
