@@ -1,5 +1,5 @@
 var EventEmitter = require('events').EventEmitter
-  , inherits = require('util').inherits
+  , debug = require('debug')('flan')
   , emitter = new EventEmitter()
   , children = {}
 
@@ -13,8 +13,11 @@ emitter.add = add
 function add(child) {
   var pid = child.pid || child.process.pid
 
+  debug('[%s] Added: %s', process.pid, pid)
+
   children[pid] = child
   child.on('exit', function () {
+    debug('[%s] Removed: %s', process.pid, pid)
     delete children[pid]
   })
 
@@ -32,6 +35,7 @@ function cascade() {
     return emitter
   }
 
+  debug('[%s] Installed cascade handler.', process.pid)
   process.on('disconnect', collapse)
   process.on('exit', collapse.bind(null, true))
 
@@ -49,6 +53,7 @@ function cluster() {
     return emitter
   }
 
+  debug('[%s] Installed cluster handler.', process.pid)
   require('cluster').on('fork', add)
 
   return emitter
@@ -62,10 +67,14 @@ function cluster() {
  */
 emitter.collapse = collapse
 function collapse(hard) {
+  debug('[%s] Starting %s collapse.', process.pid, hard ? 'hard' : 'soft')
+
   Object.keys(children).forEach(function (pid) {
     if (hard) {
+      debug('[%s] Killing: %s', process.pid, pid)
       children[pid].kill()
     } else {
+      debug('[%s] Disconnecting: %s', process.pid, pid)
       children[pid].disconnect()
     }
   })
@@ -77,9 +86,11 @@ function collapse(hard) {
  * Event aliases
  */
 process.on('disconnect', function () {
+  debug('[%s] Advising soft shutdown.', process.pid)
   emitter.emit('soft')
 })
 process.on('exit', function () {
+  debug('[%s] Advising hard shutdown.', process.pid)
   emitter.emit('hard')
 })
 
